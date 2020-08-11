@@ -55,11 +55,11 @@ Content
     > Be sure to subscripe to the pay-as-you-go as the default subscription is not enough for openshift cluster
 
   - Change the default subscription to the pay-as-you-go
-    ```
+    ```bash
     [root@bastion ~] az account set --subscription "Pay-As-You-Go"
     ```
 
-    ```
+    ```bash
     [root@bastion ~]# az account show
     {
       "environmentName": "AzureCloud",
@@ -79,7 +79,7 @@ Content
   - Create the service principal client id
     [Microsoft Docs](https://docs.microsoft.com/en-us/powershell/azure/create-azure-service-principal-azureps?view=azps-4.5.0&viewFallbackFrom=azps-2.5.0)
 
-    ```
+    ```bash
     [root@bastion ocp44]# az ad sp create-for-rbac --name openshift4-sp
     Changing "openshift4-sp" to a valid URI of "http://openshift4-sp", which is the required format used for service principal names
     Creating a role assignment under the scope of "/subscriptions/ba0ddfae-93e0-4a4b-95bc-13d6092affb0"
@@ -92,7 +92,8 @@ Content
       "tenant": "tenantID"
     }
     ```
-    ```
+
+    ```bash
     [root@bastion ocp44]# az role assignment create --assignee <appId> --role Contributor
     {
       "canDelegate": null,
@@ -108,7 +109,7 @@ Content
     }
     ```
 
-    ```
+    ```bash
     [root@bastion ocp44]# az role assignment create --assignee <appId> --role "User Access Administrator"
     {
       "canDelegate": null,
@@ -124,11 +125,12 @@ Content
   - Assign App Permission
     [Microsoft Docs](https://docs.microsoft.com/en-gb/archive/blogs/aaddevsup/guid-table-for-windows-azure-active-directory-permissions)
 
-    ```
+    ```bash
     [root@bastion ocp44]# az ad app permission add --id <appId> --api 00000002-0000-0000-c000-000000000000 --api-permissions 824c81eb-e3f8-4ee6-8f6d-de7f50d565b7=Role
     Invoking "az ad app permission grant --id appId --api 00000002-0000-0000-c000-000000000000" is needed to make the change effective
     ```
-    ```
+
+    ```bash
     [root@bastion ocp44]# az ad app permission grant --id <appId> --api 00000002-0000-0000-c000-000000000000
     {
       "clientId": "clientId",
@@ -145,7 +147,8 @@ Content
     ```
 ##### Important note here
     - ensure you have enough quota for the cluster otherwise the installer will fail
-      ```
+
+      ```bash
       [root@bastion ocp44]# az vm list-usage --location 'Germany West Central' --output table
       Name                               CurrentValue    Limit
       ---------------------------------  --------------  -------
@@ -191,7 +194,7 @@ AWS route53
     - Add the binary files to your PATH
     - Create a directory for the installation files
 
-      ```
+      ```bash
       [root@bastion ocp443]# openshift-install create cluster
       ? SSH Public Key /root/.ssh/id_rsa.pub
       ? Platform azure
@@ -203,12 +206,12 @@ AWS route53
     - Once the installer completes the process the message for kube admin and kube config will appear to be used by the **oc** cli
     - Now we can
 
-      ```
+      ```bash
       [root@bastion ocp443]# oc whoami
       system:admin
       ```
 
-      ```
+      ```bash
       [root@bastion ocp443]# oc get nodes
       NAME                                          STATUS   ROLES    AGE     VERSION
       ocp44-n5n7k-master-0                          Ready    master   10h     v1.17.1+b83bc57
@@ -219,7 +222,7 @@ AWS route53
       ocp44-n5n7k-worker-germanywestcentral-zjdhf   Ready    worker   10h     v1.17.1+b83bc57
       ```
 
-      ```
+      ```bash
       [root@bastion ocp443]# oc get machines -n openshift-machine-api
       NAME                                          PHASE     TYPE              REGION               ZONE   AGE
       ocp44-n5n7k-master-0                          Running   Standard_D8s_v3   germanywestcentral          11h
@@ -230,7 +233,7 @@ AWS route53
       ocp44-n5n7k-worker-germanywestcentral-zjdhf   Running   Standard_D2s_v3   germanywestcentral          10h
       ```
 
-      ```
+      ```bash
       [root@bastion ocp443]# oc get co
       NAME                                       VERSION   AVAILABLE   PROGRESSING   DEGRADED   SINCE
       authentication                             4.4.16    True        False         False      10h
