@@ -1,4 +1,4 @@
-### Openshift4-Azure
+[###](###) Openshift4-Azure
 ========
 
 Openshift4-Azure is the exact steps you need to deploy **Openshift 4.x** on the Microsoft Azure Cloud
@@ -181,7 +181,7 @@ AWS route53
 - Type should be NS
 - Value should be the name servers as mentioned in the previous pic.
 
-![AWS Route53]tps://github.com/hhemied/openshift4-Azure/raw/master/azure_dns_zone.png?raw=true)
+![AWS Route53](https://github.com/hhemied/openshift4-Azure/raw/master/azure_dns_zone.png?raw=true)
 
 
 
