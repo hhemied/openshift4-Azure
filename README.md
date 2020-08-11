@@ -190,8 +190,9 @@ AWS route53
     - Download all the required tools [openshit-install, Pull secret, openshift client tools]
     - Add the binary files to your PATH
     - Create a directory for the installation files
+
       ```
-     [root@bastion ocp443]# openshift-install create cluster
+      [root@bastion ocp443]# openshift-install create cluster
       ? SSH Public Key /root/.ssh/id_rsa.pub
       ? Platform azure
       INFO Credentials loaded from file "/root/.azure/osServicePrincipal.json"
