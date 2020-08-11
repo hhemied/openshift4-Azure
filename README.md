@@ -159,23 +159,23 @@ Content
       Standard Dv3 Family vCPUs          0               12 # this is the most important part
       ```
 
-#### DNS Configuratio
-    - Azure
-      1. Go to https://portal.azure.com/
-      2. search for DNS Zones
-      3. Click [Add]
-      4. Choose the pay-as-you-go subscription, and the name should be a subdomain from the domain you own in AWS route53
-      5. Click [Review + create]
-    ![azure dns zone](https://github.com/hhemied/openshift4-Azure/raw/master/aws_route53.png?raw=true)
-    - AWS route53
-      1. Go to https://aws.amazon.com/
-      2. My Account -> AWS Management Console
-      3. Click [Route 53]
-      4. Click [Hosted Zones]
-      5. Click the zone you have
-      6. Click [Create Record Set]
-      7. Name of the record should be the same as the one we created in Azure dns zones
-      8. Type should be NS
-      9. Value should be the name servers as mentioned in the previous pic.
-      ![AWS Route53](https://github.com/hhemied/openshift4-Azure/raw/master/azure_dns_zone.png?raw=true)
+#### DNS Configuration
+  - Azure
+    1. Go to https://portal.azure.com/
+    2. search for DNS Zones
+    3. Click [Add]
+    4. Choose the pay-as-you-go subscription, and the name should be a subdomain from the domain you own in AWS route53
+    5. Click [Review + create]
+  ![azure dns zone](https://github.com/hhemied/openshift4-Azure/raw/master/aws_route53.png?raw=true)
+  - AWS route53
+    1. Go to https://aws.amazon.com/
+    2. My Account -> AWS Management Console
+    3. Click [Route 53]
+    4. Click [Hosted Zones]
+    5. Click the zone you have
+    6. Click [Create Record Set]
+    7. Name of the record should be the same as the one we created in Azure dns zones
+    8. Type should be NS
+    9. Value should be the name servers as mentioned in the previous pic.
+  [AWS Route53](https://github.com/hhemied/openshift4-Azure/raw/master/azure_dns_zone.png?raw=true)
 
