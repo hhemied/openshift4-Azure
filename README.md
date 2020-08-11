@@ -7,9 +7,9 @@ Content
 --------
 - [x] Prepare the azure account to be used by the openshift installer
 - [x] Prepare the machine will be used as the installer to use **az** [azure command line]
-- [ ] Use the AWS route53 as the our main dns
-- [ ] Prepare the azure dns zone
-- [ ] Install required tools to install openshift 4
+- [x] Use the AWS route53 as the our main dns
+- [x] Prepare the azure dns zone
+- [x] Install required tools to install openshift 4
 - [ ] Create **Infra** machineset with keeping it in the worker role
 - [ ] Create **Infra** machineset without being a part of worker role
 - [ ] 2nd day operations
