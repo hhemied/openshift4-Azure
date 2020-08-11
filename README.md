@@ -149,21 +149,21 @@ Content
 ##### Important note here
 ---------------------------
 
-    - ensure you have enough quota for the cluster otherwise the installer will fail
+- ensure you have enough quota for the cluster otherwise the installer will fail
 
-      ```bash
-      [root@bastion ocp44]# az vm list-usage --location 'Germany West Central' --output table
-      Name                               CurrentValue    Limit
-      ---------------------------------  --------------  -------
-      Availability Sets                  0               2500
-      Total Regional vCPUs               0               12
-      Virtual Machines                   0               25000
-      Virtual Machine Scale Sets         0               2500
-      Dedicated vCPUs                    0               3000
-      Total Regional Low-priority vCPUs  0               10
-      ...
-      Standard Dv3 Family vCPUs          0               12 # this is the most important part
-      ```
+  ```bash
+  [root@bastion ocp44]# az vm list-usage --location 'Germany West Central' --output table
+  Name                               CurrentValue    Limit
+  ---------------------------------  --------------  -------
+  Availability Sets                  0               2500
+  Total Regional vCPUs               0               12
+  Virtual Machines                   0               25000
+  Virtual Machine Scale Sets         0               2500
+  Dedicated vCPUs                    0               3000
+  Total Regional Low-priority vCPUs  0               10
+  ...
+  Standard Dv3 Family vCPUs          0               12 # this is the most important part
+  ```
 
 ### DNS Configuration
 
