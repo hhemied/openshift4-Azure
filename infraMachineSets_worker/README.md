@@ -131,3 +131,44 @@ Steps
   ocp44-n5n7k-worker-germanywestcentral-fbvlv   Ready    worker         11h     v1.17.1+b83bc57
   ocp44-n5n7k-worker-germanywestcentral-zjdhf   Ready    worker         11h     v1.17.1+b83bc57
   ```
+
+- Scale down the machine set to 0
+
+  ```
+  [root@bastion ocp443]# oc scale machinesets.machine.openshift.io ocp44-n5n7k-infra-germanywestcentral -n openshift-machine-api --replicas=0
+  machineset.machine.openshift.io/ocp44-n5n7k-infra-germanywestcentral scaled
+  ```
+
+  ```
+  [root@bastion ocp443]# oc get machines -n openshift-machine-api
+  NAME                                          PHASE      TYPE              REGION               ZONE   AGE
+  ocp44-n5n7k-infra-germanywestcentral-gcfkf    Deleting   Standard_D2s_v3   germanywestcentral          10m
+  ocp44-n5n7k-master-0                          Running    Standard_D8s_v3   germanywestcentral          11h
+  ocp44-n5n7k-master-1                          Running    Standard_D8s_v3   germanywestcentral          11h
+  ocp44-n5n7k-master-2                          Running    Standard_D8s_v3   germanywestcentral          11h
+  ocp44-n5n7k-worker-germanywestcentral-2bdnt   Running    Standard_D2s_v3   germanywestcentral          7h13m
+  ocp44-n5n7k-worker-germanywestcentral-fbvlv   Running    Standard_D2s_v3   germanywestcentral          11h
+  ocp44-n5n7k-worker-germanywestcentral-zjdhf   Running    Standard_D2s_v3   germanywestcentral          11h
+  ```
+
+  ```
+  [root@bastion ocp443]# oc get machines -n openshift-machine-api
+  NAME                                          PHASE     TYPE              REGION               ZONE   AGE
+  ocp44-n5n7k-master-0                          Running   Standard_D8s_v3   germanywestcentral          11h
+  ocp44-n5n7k-master-1                          Running   Standard_D8s_v3   germanywestcentral          11h
+  ocp44-n5n7k-master-2                          Running   Standard_D8s_v3   germanywestcentral          11h
+  ocp44-n5n7k-worker-germanywestcentral-2bdnt   Running   Standard_D2s_v3   germanywestcentral          7h16m
+  ocp44-n5n7k-worker-germanywestcentral-fbvlv   Running   Standard_D2s_v3   germanywestcentral          11h
+  ocp44-n5n7k-worker-germanywestcentral-zjdhf   Running   Standard_D2s_v3   germanywestcentral          11h
+  ```
+
+  ```
+  [root@bastion ocp443]# oc get nodes
+  NAME                                          STATUS   ROLES    AGE     VERSION
+  ocp44-n5n7k-master-0                          Ready    master   11h     v1.17.1+b83bc57
+  ocp44-n5n7k-master-1                          Ready    master   11h     v1.17.1+b83bc57
+  ocp44-n5n7k-master-2                          Ready    master   11h     v1.17.1+b83bc57
+  ocp44-n5n7k-worker-germanywestcentral-2bdnt   Ready    worker   7h10m   v1.17.1+b83bc57
+  ocp44-n5n7k-worker-germanywestcentral-fbvlv   Ready    worker   11h     v1.17.1+b83bc57
+  ocp44-n5n7k-worker-germanywestcentral-zjdhf   Ready    worker   11h     v1.17.1+b83bc57
+  ```
