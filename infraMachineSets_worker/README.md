@@ -80,5 +80,54 @@ Steps
 
 - Create the machine set
   ```
-  [root@bastion ocp443]# oc create -f infraMachineSet.yaml
+  [root@bastion ocp443]# oc create -f infraMachineSet.yaml -n openshift-machine-api
+  ```
+
+- Scale up the machine set by the number you need
+
+  ```
+  [root@bastion ocp443]# oc scale machinesets.machine.openshift.io ocp44-n5n7k-infra-germanywestcentral -n openshift-machine-api --replicas=1
+  machineset.machine.openshift.io/ocp44-n5n7k-infra-germanywestcentral scaled
+  ```
+
+- Check the machines
+
+  ```
+  [root@bastion ocp443]# oc get machines -n openshift-machine-api
+  NAME                                          PHASE          TYPE              REGION               ZONE   AGE
+  ocp44-n5n7k-infra-germanywestcentral-gcfkf    Provisioning   Standard_D2s_v3   germanywestcentral          59s
+  ocp44-n5n7k-master-0                          Running        Standard_D8s_v3   germanywestcentral          11h
+  ocp44-n5n7k-master-1                          Running        Standard_D8s_v3   germanywestcentral          11h
+  ocp44-n5n7k-master-2                          Running        Standard_D8s_v3   germanywestcentral          11h
+  ocp44-n5n7k-worker-germanywestcentral-2bdnt   Running        Standard_D2s_v3   germanywestcentral          7h4m
+  ocp44-n5n7k-worker-germanywestcentral-fbvlv   Running        Standard_D2s_v3   germanywestcentral          11h
+  ocp44-n5n7k-worker-germanywestcentral-zjdhf   Running        Standard_D2s_v3   germanywestcentral          11h
+  ```
+
+  ```
+  [root@bastion ocp443]# oc get machines -n openshift-machine-api
+  NAME                                          PHASE     TYPE              REGION               ZONE   AGE
+  ocp44-n5n7k-infra-germanywestcentral-gcfkf    Running   Standard_D2s_v3   germanywestcentral          5m4s
+  ocp44-n5n7k-master-0                          Running   Standard_D8s_v3   germanywestcentral          11h
+  ocp44-n5n7k-master-1                          Running   Standard_D8s_v3   germanywestcentral          11h
+  ocp44-n5n7k-master-2                          Running   Standard_D8s_v3   germanywestcentral          11h
+  ocp44-n5n7k-worker-germanywestcentral-2bdnt   Running   Standard_D2s_v3   germanywestcentral          7h8m
+  ocp44-n5n7k-worker-germanywestcentral-fbvlv   Running   Standard_D2s_v3   germanywestcentral          11h
+  ocp44-n5n7k-worker-germanywestcentral-zjdhf   Running   Standard_D2s_v3   germanywestcentral          11h
+  ```
+
+  > you need to wait untill the machine becomes in **running** phase
+
+
+- Finally check the cluster nodes state
+  ```
+  [root@bastion ocp443]# oc get nodes
+  NAME                                          STATUS   ROLES          AGE     VERSION
+  ocp44-n5n7k-infra-germanywestcentral-gcfkf    Ready    infra,worker   3m27s   v1.17.1+b83bc57
+  ocp44-n5n7k-master-0                          Ready    master         11h     v1.17.1+b83bc57
+  ocp44-n5n7k-master-1                          Ready    master         11h     v1.17.1+b83bc57
+  ocp44-n5n7k-master-2                          Ready    master         11h     v1.17.1+b83bc57
+  ocp44-n5n7k-worker-germanywestcentral-2bdnt   Ready    worker         7h5m    v1.17.1+b83bc57
+  ocp44-n5n7k-worker-germanywestcentral-fbvlv   Ready    worker         11h     v1.17.1+b83bc57
+  ocp44-n5n7k-worker-germanywestcentral-zjdhf   Ready    worker         11h     v1.17.1+b83bc57
   ```
