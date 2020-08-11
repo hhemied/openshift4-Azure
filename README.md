@@ -159,7 +159,8 @@ Content
       Standard Dv3 Family vCPUs          0               12 # this is the most important part
       ```
 
-#### DNS Configuration
+### DNS Configuration
+
 Azure
 -----
 - Go to https://portal.azure.com/
