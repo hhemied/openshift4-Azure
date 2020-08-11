@@ -1,7 +1,7 @@
 # openshift4-Azure
 -------------------
 
-$ Why do you need this?
+$Why do you need this?
 -----------------------
 
 #### Installation
