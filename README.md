@@ -1,4 +1,4 @@
-[###](###) Openshift4-Azure
+### Openshift4-Azure
 ========
 
 Openshift4-Azure is the exact steps you need to deploy **Openshift 4.x** on the Microsoft Azure Cloud
@@ -185,4 +185,81 @@ AWS route53
 ![AWS Route53](https://github.com/hhemied/openshift4-Azure/raw/master/azure_dns_zone.png?raw=true)
 
 
+  - On the bastion node
+    - Open https://cloud.redhat.com/openshift/install/azure/installer-provisioned
+    - Download all the required tools [openshit-install, Pull secret, openshift client tools]
+    - Add the binary files to your PATH
+    - Create a directory for the installation files
+      ```
+     [root@bastion ocp443]# openshift-install create cluster
+      ? SSH Public Key /root/.ssh/id_rsa.pub
+      ? Platform azure
+      INFO Credentials loaded from file "/root/.azure/osServicePrincipal.json"
+      ? Region germanywestcentral
+      ? Base Domain  [Use arrows to move, enter to select, type to filter, ? for more help]
+      > az.openshift4me.de
+      ```
+    - Once the installer completes the process the message for kube admin and kube config will appear to be used by the **oc** cli
+    - Now we can
 
+      ```
+      [root@bastion ocp443]# oc whoami
+      system:admin
+      ```
+
+      ```
+      [root@bastion ocp443]# oc get nodes
+      NAME                                          STATUS   ROLES    AGE     VERSION
+      ocp44-n5n7k-master-0                          Ready    master   10h     v1.17.1+b83bc57
+      ocp44-n5n7k-master-1                          Ready    master   10h     v1.17.1+b83bc57
+      ocp44-n5n7k-master-2                          Ready    master   10h     v1.17.1+b83bc57
+      ocp44-n5n7k-worker-germanywestcentral-2bdnt   Ready    worker   6h28m   v1.17.1+b83bc57
+      ocp44-n5n7k-worker-germanywestcentral-fbvlv   Ready    worker   10h     v1.17.1+b83bc57
+      ocp44-n5n7k-worker-germanywestcentral-zjdhf   Ready    worker   10h     v1.17.1+b83bc57
+      ```
+
+      ```
+      [root@bastion ocp443]# oc get machines -n openshift-machine-api
+      NAME                                          PHASE     TYPE              REGION               ZONE   AGE
+      ocp44-n5n7k-master-0                          Running   Standard_D8s_v3   germanywestcentral          11h
+      ocp44-n5n7k-master-1                          Running   Standard_D8s_v3   germanywestcentral          11h
+      ocp44-n5n7k-master-2                          Running   Standard_D8s_v3   germanywestcentral          11h
+      ocp44-n5n7k-worker-germanywestcentral-2bdnt   Running   Standard_D2s_v3   germanywestcentral          6h37m
+      ocp44-n5n7k-worker-germanywestcentral-fbvlv   Running   Standard_D2s_v3   germanywestcentral          10h
+      ocp44-n5n7k-worker-germanywestcentral-zjdhf   Running   Standard_D2s_v3   germanywestcentral          10h
+      ```
+
+      ```
+      [root@bastion ocp443]# oc get co
+      NAME                                       VERSION   AVAILABLE   PROGRESSING   DEGRADED   SINCE
+      authentication                             4.4.16    True        False         False      10h
+      cloud-credential                           4.4.16    True        False         False      11h
+      cluster-autoscaler                         4.4.16    True        False         False      10h
+      console                                    4.4.16    True        False         False      10h
+      csi-snapshot-controller                    4.4.16    True        False         False      10h
+      dns                                        4.4.16    True        False         False      10h
+      etcd                                       4.4.16    True        False         False      10h
+      image-registry                             4.4.16    True        False         False      10h
+      ingress                                    4.4.16    True        False         False      6h37m
+      insights                                   4.4.16    True        False         False      10h
+      kube-apiserver                             4.4.16    True        False         False      10h
+      kube-controller-manager                    4.4.16    True        False         False      10h
+      kube-scheduler                             4.4.16    True        False         False      10h
+      kube-storage-version-migrator              4.4.16    True        False         False      10h
+      machine-api                                4.4.16    True        False         False      10h
+      machine-config                             4.4.16    True        False         False      10h
+      marketplace                                4.4.16    True        False         False      10h
+      monitoring                                 4.4.16    True        False         False      10h
+      network                                    4.4.16    True        False         False      10h
+      node-tuning                                4.4.16    True        False         False      10h
+      openshift-apiserver                        4.4.16    True        False         False      10h
+      openshift-controller-manager               4.4.16    True        False         False      10h
+      openshift-samples                          4.4.16    True        False         False      10h
+      operator-lifecycle-manager                 4.4.16    True        False         False      10h
+      operator-lifecycle-manager-catalog         4.4.16    True        False         False      10h
+      operator-lifecycle-manager-packageserver   4.4.16    True        False         False      10h
+      service-ca                                 4.4.16    True        False         False      10h
+      service-catalog-apiserver                  4.4.16    True        False         False      10h
+      service-catalog-controller-manager         4.4.16    True        False         False      10h
+      storage                                    4.4.16    True        False         False      10h
+      ```
