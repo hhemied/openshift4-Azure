@@ -145,7 +145,10 @@ Content
       "startTime": "2020-08-08T19:44:37.054595"
     }
     ```
+
 ##### Important note here
+---------------------------
+
     - ensure you have enough quota for the cluster otherwise the installer will fail
 
       ```bash
