@@ -63,18 +63,119 @@ Content
     [root@bastion ~]# az account show
     {
       "environmentName": "AzureCloud",
-      "homeTenantId": "17235b28-6097-4e99-a460-a4131bea18d5",
-      "id": "ba0ddfae-93e0-4a4b-95bc-13d6092affb0",
+      "homeTenantId": "HomeID",
+      "id": "ID",
       "isDefault": true,
       "managedByTenants": [],
       "name": "Pay-As-You-Go",
       "state": "Enabled",
-      "tenantId": "17235b28-6097-4e99-a460-a4131bea18d5",
+      "tenantId": "tenantID",
       "user": {
-        "name": "hhemied@outlook.com",
+        "name": "email@outlook.com",
         "type": "user"
       }
     }
     ```
   - Create the service principal client id
+    [Microsoft Docs](https://docs.microsoft.com/en-us/powershell/azure/create-azure-service-principal-azureps?view=azps-4.5.0&viewFallbackFrom=azps-2.5.0)
+
+    ```
+    [root@bastion ocp44]# az ad sp create-for-rbac --name openshift4-sp
+    Changing "openshift4-sp" to a valid URI of "http://openshift4-sp", which is the required format used for service principal names
+    Creating a role assignment under the scope of "/subscriptions/ba0ddfae-93e0-4a4b-95bc-13d6092affb0"
+      Retrying role assignment creation: 1/36
+    {
+      "appId": "service principal client id",
+      "displayName": "openshift4-sp",
+      "name": "http://openshift4-sp",
+      "password": "service principal client id secret",
+      "tenant": "tenantID"
+    }
+    ```
+    ```
+    [root@bastion ocp44]# az role assignment create --assignee <appId> --role Contributor
+    {
+      "canDelegate": null,
+      "id": "/subscriptions/id/providers/Microsoft.Authorization/roleAssignments/xxx",
+      "name": "name",
+      "principalId": "principalId",
+      "principalName": "http://openshift4-sp",
+      "principalType": "ServicePrincipal",
+      "roleDefinitionId": "/subscriptions/id/providers/Microsoft.Authorization/roleDefinitions/xxx",
+      "roleDefinitionName": "Contributor",
+      "scope": "/subscriptions/id",
+      "type": "Microsoft.Authorization/roleAssignments"
+    }
+    ```
+
+    ```
+    [root@bastion ocp44]# az role assignment create --assignee <appId> --role "User Access Administrator"
+    {
+      "canDelegate": null,
+      "id": "/subscriptions/id/providers/Microsoft.Authorization/roleAssignments/xxx",
+      "name": "name",
+      "principalId": "principalId",
+      "principalType": "ServicePrincipal",
+      "roleDefinitionId": "/subscriptions/id/providers/Microsoft.Authorization/roleDefinitions/xxx",
+      "scope": "/subscriptions/id",
+      "type": "Microsoft.Authorization/roleAssignments"
+    }
+    ```
+  - Assign App Permission
+    [Microsoft Docs](https://docs.microsoft.com/en-gb/archive/blogs/aaddevsup/guid-table-for-windows-azure-active-directory-permissions)
+
+    ```
+    [root@bastion ocp44]# az ad app permission add --id <appId> --api 00000002-0000-0000-c000-000000000000 --api-permissions 824c81eb-e3f8-4ee6-8f6d-de7f50d565b7=Role
+    Invoking "az ad app permission grant --id appId --api 00000002-0000-0000-c000-000000000000" is needed to make the change effective
+    ```
+    ```
+    [root@bastion ocp44]# az ad app permission grant --id <appId> --api 00000002-0000-0000-c000-000000000000
+    {
+      "clientId": "clientId",
+      "consentType": "AllPrincipals",
+      "expiryTime": "2021-08-08T19:44:37.054595",
+      "objectId": "Th0YK9E7KUqWSRx1QBeISEb3AOvK4DpBnDz",
+      "odata.metadata": "https://graph.windows.net/17235b28-6097-4q39-3123-a4131bea18d5/$metadata#oauth2PermissionGrants/@Element",
+      "odatatype": null,
+      "principalId": null,
+      "resourceId": "eb00f746-e0ca-413a-9c3c-efw23213f",
+      "scope": "user_impersonation",
+      "startTime": "2020-08-08T19:44:37.054595"
+    }
+    ```
+##### Important note here
+    - ensure you have enough quota for the cluster otherwise the installer will fail
+      ```
+      [root@bastion ocp44]# az vm list-usage --location 'Germany West Central' --output table
+      Name                               CurrentValue    Limit
+      ---------------------------------  --------------  -------
+      Availability Sets                  0               2500
+      Total Regional vCPUs               0               12
+      Virtual Machines                   0               25000
+      Virtual Machine Scale Sets         0               2500
+      Dedicated vCPUs                    0               3000
+      Total Regional Low-priority vCPUs  0               10
+      ...
+      Standard Dv3 Family vCPUs          0               12 # this is the most important part
+      ```
+
+#### DNS Configuratio
+    - Azure
+      1. Go to https://portal.azure.com/
+      2. search for DNS Zones
+      3. Click [Add]
+      4. Choose the pay-as-you-go subscription, and the name should be a subdomain from the domain you own in AWS route53
+      5. Click [Review + create]
+    ![azure dns zone](https://github.com/hhemied/openshift4-Azure/raw/master/aws_route53.png?raw=true)
+    - AWS route53
+      1. Go to https://aws.amazon.com/
+      2. My Account -> AWS Management Console
+      3. Click [Route 53]
+      4. Click [Hosted Zones]
+      5. Click the zone you have
+      6. Click [Create Record Set]
+      7. Name of the record should be the same as the one we created in Azure dns zones
+      8. Type should be NS
+      9. Value should be the name servers as mentioned in the previous pic.
+      ![AWS Route53](https://github.com/hhemied/openshift4-Azure/raw/master/azure_dns_zone.png?raw=true)
 
