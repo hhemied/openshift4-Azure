@@ -23,7 +23,7 @@ Content
     NOTE
     > If your web browser don't open URLs automatically, please copy and paste the URL from the command output
       then paste the code given by the command line.
-    ```
+    ```bash
      [root@bastion ~]# az login
      To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code C82UQ5T5E to authenticate.
 
