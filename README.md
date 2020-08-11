@@ -10,7 +10,7 @@ Content
 - [x] Use the AWS route53 as the our main dns
 - [x] Prepare the azure dns zone
 - [x] Install required tools to install openshift 4
-- [ ] Create **Infra** machineset with keeping it in the worker role
+- [x] Create **Infra** machineset with keeping it in the worker role
 - [ ] Create **Infra** machineset without being a part of worker role
 - [ ] 2nd day operations
 
