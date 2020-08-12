@@ -200,7 +200,7 @@ AWS route53
       ```bash
       # for the first time will ask for the data we had, appId we created, app principal Id and the app password
 
-      [root@bastion ocp443]# openshift-install create cluster
+      [root@bastion ocp443]# openshift-install create install-config
       ? SSH Public Key /root/.ssh/id_rsa.pub
       ? Platform azure
       INFO Credentials loaded from file "/root/.azure/osServicePrincipal.json"
