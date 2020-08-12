@@ -198,6 +198,8 @@ AWS route53
     - Create a directory for the installation files
 
       ```bash
+      # for the first time will ask for the data we had, appId we created, app principal Id and the app password
+
       [root@bastion ocp443]# openshift-install create cluster
       ? SSH Public Key /root/.ssh/id_rsa.pub
       ? Platform azure
@@ -210,6 +212,21 @@ AWS route53
     - Now we can
 
       ```bash
+      [root@bastion ocp4]# openshift-install create cluster
+      INFO Credentials loaded from file "/root/.azure/osServicePrincipal.json"
+      INFO Consuming Install Config from target directory
+      INFO Creating infrastructure resources...
+      INFO Waiting up to 20m0s for the Kubernetes API at https://api.ocp44.az.openshift4me.de:6443...
+      INFO API v1.17.1+b83bc57 up
+      INFO Waiting up to 40m0s for bootstrapping to complete...
+      INFO Destroying the bootstrap resources...
+      INFO Waiting up to 30m0s for the cluster at https://api.ocp44.az.openshift4me.de:6443 to initialize...
+      INFO Waiting up to 10m0s for the openshift-console route to be created...
+      INFO Install complete!
+      INFO To access the cluster as the system:admin user when using 'oc', run 'export KUBECONFIG=/root/ocp4/auth/kubeconfig'
+      INFO Access the OpenShift web-console here: https://console-openshift-console.apps.ocp44.az.openshift4me.de
+      INFO Login to the console with user: kubeadmin, password: XXXXXXXXXX
+
       [root@bastion ocp443]# oc whoami
       system:admin
       ```
