@@ -164,11 +164,3 @@ router-default-6dc96fb49-zx8rq    0/1     ContainerCreating   0
 oc whoami --show-console
 https://console-openshift-console.apps.ocp44.az.openshift4me.de
 ```
-
-
-[root@bastion ~]# oc get pods -n openshift-ingress
-NAME                              READY   STATUS              RESTARTS   AGE
-router-default-6b5df8b6c7-2vxtz   1/1     Terminating         0          44m
-router-default-6b5df8b6c7-cck4l   1/1     Running             0          172m
-router-default-6dc96fb49-bxd79    1/1     Running             0          35s
-router-default-6dc96fb49-zx8rq    0/1     ContainerCreating   0
