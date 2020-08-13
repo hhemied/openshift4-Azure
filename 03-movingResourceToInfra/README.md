@@ -9,12 +9,12 @@ oc get ingresscontroller default -n openshift-ingress-operator -o yaml
 ```
 
 - Edit the ingress controller
-> Append the following lines to the ingress controller
->   spec:
->    nodePlacement:
->      nodeSelector:
->        matchLabels:
->          node-role.kubernetes.io/infra: ""
+| Append the following lines to the ingress controller
+|   spec:
+|    nodePlacement:
+|      nodeSelector:
+|        matchLabels:
+|          node-role.kubernetes.io/infra: ""
 ```yaml
 apiVersion: operator.openshift.io/v1
 kind: IngressController
