@@ -11,9 +11,9 @@ Content
 - [x] Prepare the azure dns zone
 - [x] Install required tools to install openshift 4
 - [x] Create **Infra** machineset with keeping it in the worker role
-- [ ] Create **Infra** machineset without being a part of worker role
+- [x] Create **Infra** machineset without being a part of worker role
 - [ ] 2nd day operations
-
+- [x] Upgrade the cluster
 
 #### Technical Steps:
 ----------------
