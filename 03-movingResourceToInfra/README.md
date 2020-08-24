@@ -99,3 +99,109 @@ node-ca-lxhjs                                      1/1     Running       0      
 node-ca-n278c                                      1/1     Running       0          93m    10.130.4.2    ocp44-klk2k-infra-germanywestcentral-kt8mt    <none>           <none>
 node-ca-r2hg9                                      1/1     Running       0          155m   10.131.0.3    ocp44-klk2k-worker-germanywestcentral-jpk72   <none>           <none>
 ```
+
+#### Move the Monitoring stack
+
+- Add the cluster monitoring config map
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-monitoring-config
+  namespace: openshift-monitoring
+data:
+  config.yaml: |+
+    alertmanagerMain:
+      nodeSelector:
+        node-role.kubernetes.io/infra: ""
+    prometheusK8s:
+      nodeSelector:
+        node-role.kubernetes.io/infra: ""
+    prometheusOperator:
+      nodeSelector:
+        node-role.kubernetes.io/infra: ""
+    grafana:
+      nodeSelector:
+        node-role.kubernetes.io/infra: ""
+    k8sPrometheusAdapter:
+      nodeSelector:
+        node-role.kubernetes.io/infra: ""
+    kubeStateMetrics:
+      nodeSelector:
+        node-role.kubernetes.io/infra: ""
+    telemeterClient:
+      nodeSelector:
+        node-role.kubernetes.io/infra: ""
+    openshiftStateMetrics:
+      nodeSelector:
+        node-role.kubernetes.io/infra: ""
+
+```
+- Create the config map
+```bash
+oc replace -f cluster-monitoring-configmap.yml
+```
+
+- Check if the pods are recreating
+```bash
+oc get pods -o wide --watch -n openshift-monitorig
+```
+
+- Move the Cluster Logging instance
+```bash
+oc edit ClusterLogging instance -n openshift-logging
+```
+
+- Edit to match the following, ensure you already installed the cluster logging
+```yaml
+apiVersion: logging.openshift.io/v1
+kind: ClusterLogging
+
+....
+
+spec:
+  collection:
+    logs:
+      fluentd:
+        resources: null
+      type: fluentd
+  curation:
+    curator:
+      nodeSelector:
+          node-role.kubernetes.io/infra: ''
+      resources: null
+      schedule: 30 3 * * *
+    type: curator
+  logStore:
+    elasticsearch:
+      nodeCount: 3
+      nodeSelector:
+          node-role.kubernetes.io/infra: ''
+      redundancyPolicy: SingleRedundancy
+      resources:
+        limits:
+          cpu: 500m
+          memory: 16Gi
+        requests:
+          cpu: 500m
+          memory: 16Gi
+      storage: {}
+    type: elasticsearch
+  managementState: Managed
+  visualization:
+    kibana:
+      nodeSelector:
+          node-role.kubernetes.io/infra: ''
+      proxy:
+        resources: null
+      replicas: 1
+      resources: null
+    type: kibana
+
+....
+```
+
+- Ensure the pods are relocated
+```bash
+oc get pods -o wide -n openshift-logging
+```
